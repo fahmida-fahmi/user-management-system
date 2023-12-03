@@ -1,0 +1,590 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{blindtext}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\ifCLASSOPTIONcompsoc
+  % 
+  % requires cite.sty v4.0 or later (November 2003)
+  \usepackage[nocompress]{cite}
+\else
+  % normal IEEE
+  \usepackage{cite}
+\fi
+\usepackage{amsmath}
+
+\newcommand{\RN}[1]{%
+  \textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+\usepackage{fancyhdr}
+%\rhead{
+%\sffamily\fontsize{9}{12}\selectfont 
+%1st International Conference on Information and Communication Technology for Development (ICICTD), 29-30 July 2022}
+\renewcommand{\headrulewidth}{0pt}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\begin{document}
+\title{Forecasting Residential Rental Prices through Machine Learning: An Analytical Study of the Dhaka City, Bangladesh Context}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page (and note that there is less available width in this regard for
+% compsoc conferences compared to traditional conferences), use this
+% alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+\thispagestyle{fancy}
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+The burgeoning economic importance of residential rentals underscores the significance of accurately predicting property rental values, benefiting both renters and property owners alike. The escalating housing costs in Dhaka City, attributable to a continuous influx of inhabitants seeking residence, have underscored the need for a robust predictive strategy. To address this, we employ an innovative approach, utilizing Grid Search CV to discern the optimal predictive model among three prominent machine learning algorithms. Notably, the Decision Tree Regressor algorithm emerges as the top performer. Leveraging a comprehensive dataset comprising 27,774 records sourced from diverse online housing platforms in Dhaka, we pioneer an unexplored avenue, as there exists a dearth of research on rental price prediction in the Bangladeshi context. Our proposed model attains a remarkable accuracy rating of 93\%, signifying a promising advancement in the field of rental price estimation.
+ \\\
+
+\textit{Keywords— Decision tree regressor, linear regression, machine learning, lasso, grid search CV, house rent prediction.}
+\end{abstract}
+\IEEEpeerreviewmaketitle
+% no keywords
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+\section{Introduction}
+% no \IEEEPARstart
+There are around 15.5 lakh people who own their homes in Dhaka, while the remaining more than 90\% live in rented accommodations. The Bangladesh Bureau of Statistics reports that the city of Dhaka's population grows by 1,418 people every single day, which equates to over 5 lakh people every single year. The Rajdhani Unnayan Kartripakkha (Rajuk) is in charge of approving the construction plans for around 2,500 new structures on an annual basis. If these structures have an average of six stories and two units per floor, then Dhaka is adding around 30,000 new flats every year to its population. If there are an average of five individuals living on each level, then the number of people who are accommodated in those apartments each year comes to around 1.5 lakh. It can be difficult for individuals to pick one that best suits their needs in terms of comfort, money, and location. This study presents a method for estimating the monthly rent for a house or flat in the city of Dhaka that makes use of a regression Machine-Learning algorithm. This approach will present you with a detailed calculation result if you are interested in renting a property in a specific area of Dhaka but do not have much knowledge about that area's house rent.\\\
+\\\
+Regression is a type of machine learning tool. It is a statistical technique for predicting the value of one variable based on the value of another. The variable you want to predict is the one you call the "dependent variable"\cite{grid}. The rent for an apartment or house would be based on different factors, such as the number of bedrooms, the location of the house, the number of bathrooms, and so on, according to the method we've come up with.\\\
+\\\
+There have been a number of different approaches suggested for predicting housing prices or rents, including the followings: researchers in India have proposed \cite{grid} a system that can predict the price of a house based on a number of factors. They have also utilized two unique features, which are air quality and crime, which would produce better forecasts for the users of the system in India, They only utilized the dataset for the city of Mumbai, which is located in India. They achieved an accuracy rate of 89\%  with the help of a decision tree machine learning algorithm that was applied in this system. Several researchers have collaborated in pakistan to develop a system that makes use of the \cite{r0} XBoost machine learning algorithm in order to provide purchasers of real estate property with accurate estimates of home values. The real estate property data set of Karachi city that was utilized in this system has 38,961 records and characteristics,  some of which are as follows: location, city, property type (Flat, House), number of bedrooms, bathrooms, longitude, latitude, area, price. \\\
+\\\
+In our proposed system, we took 27,774 pieces of information from a number of online housing sites. After that, we cleaned up our dataset to make sure it was more accurate. We use category like location, number of bedrooms and bathrooms, rent, and total square feet to train our proposed model. Then, we used three different types of machine learning, including linear regression, lasso, and decision tree. By using Grid Search CV, we found that the decision tree is the best way to estimate, since it is 93\% accurate.Grid Search CV can help you choose the best max-depth value for building a decision tree. The whole program is written in the python programming language. The predictive model is made with a "Decision tree regressor" from the "Scikit-learn" Machine-Learning toolkit. \\\
+\\\\
+The remainder of the study is arranged as follows: Section II discusses various related papers done in many other countries on different forms of house price prediction using different attributes.Section III discusses the research approach, including the datasets and procedures that have been suggested. Section IV displays the analysis of the results. Section V takes a look at what's to come in the future.
+
+\section{Related Papers}
+Machine learning is all about making algorithms that can teach themselves and predict what will happen in the future based on what has happened in the past. The same kinds of things are used to predict house prices or house rent.This section talks about different ideas and studies that have been done in this field.
+
+Many researchers have tried to predict a housing model. Developing an opinion of value is an important tool for determining property values when buying, selling, insuring, lending, taxing, renting a residence property, said Zhao et al. \cite{r1}, who used deep learning in combination with extreme gradient boosting (XGBoost) to predict real estate prices by looking at past property sales.
+
+For Satish et al.\cite{r2}, regression is used to determine the relationship between an independent variable (also known as a predictor) and a dependent (also known as a response or an outcome) variable. The study used a machine learning system to forecast the price of homes in the future. Their goal was to determine which form of prediction would be most accurate by comparing and testing numerous ways. Lasso regression was chosen as their model because of its adaptability and probabilistic technique, while XGBoost and Neural System were alternative machine learning models. Using Lasso regression, the study demonstrated that it consistently outperforms in predicting housing prices.
+
+Recently, a few writers and different technologies came up with ways to help customers find the best homes. Raghunandhan \cite{r3} talked about how data mining works and how it can be used with other algorithms to make predictions. The most important thing is to figure out which machine learning algorithm is best for figuring out how much a house will cost. Most of the time, the environment of a place determines what kind of price we can expect to pay for different kinds of houses. Manjula \cite{r4} lists a number of important factors to use when using a regression model to accurately predict property prices. A. Varma \cite{r5} made a system that uses Google Maps to get accurate real-world valuations based on data from the neighborhood in real time.
+
+Nihar Bhagat, Ankit Mohokar, and Shreyash Mane looked \cite{r6}at linear regression algorithms to predict the houses in 2016. The goal of the paper is to figure out how much customers should pay for real estate based on their budgets and priorities. By looking at past market trends and price ranges, you can figure out what houses will cost in the future.
+
+In another study, T. D. Phan \cite{r7} used machine learning techniques to look at past property transactions. The goal of the study was to get useful information from recorded data about property markets in Melbourne, Australia, and to find useful models that could predict the value of a house given a set of characteristics.
+
+Researchers also showed that there are links between a city's looks and things that can't be seen, like its crime rate, housing prices, population density, etc. "City Forensics: Using Visual Elements to Predict Non-Visual City Attributes" \cite{r8} uses visual attributes to figure out how much a house will sell for. Hujia Yu and Jiafu Wu used classification and regression algorithms in their work in 2014 \cite{r9}. Analysis shows that the number of square feet of living space, the type of roof, and the neighborhood are the most important statistical factors when figuring out how much a house will sell for.
+\section{Methodology}
+The purpose of this proposed method is to make an automatic prediction of the house rent based on five different categories. The following procedures are carried out in order to accomplish this goal, such as 1) Data collection, 2) Data prepossessing,4) Dividing Dataset into training and testing set,5) Machine Learning approaches, 6) House Rent prediction.The overall method is broken down into its component parts and depicted in fig \ref{fig:model} The subsequent paragraphs contain an explanation of the stages' individual components in greater depth.
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=\linewidth]{FULL.png}
+  \end{center}
+  \caption{ The generic flow of development}
+  \label{fig:model}
+ \end{figure}
+\subsection{Data Details}
+
+
+The gathering of a substantial amount of data is the first step in the process of constructing any data set. We scraped 27,774 sample datasets from a wide number of online housing websites in Dhaka using beautiful soup python library. In order to guarantee the richness of the data set that was obtained, we decided to extract information from the following seven categories: location, bedroom, bathroom, Total square feet, id, source and rent. Because the objective was to forecast housing rent using the extracted feature, the training dataset was designed to be as objective as was physically practicable.Therefore, the details of the data that we have used in our suggested system are presented in  table \ref{table:data_details} for each category. 
+\\\
+\begin{table}[ht]
+\caption{FEATURE DESCRIPTION OF ACTUAL DATASET} % title of Table
+\centering % used for centering table
+\begin{tabular}{l c c r} % centered columns (4 columns)
+\hline
+\textbf{} & \textbf{Name} & \textbf{Type} & \textbf{Description}  \\[0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line of the table
+1 & location & Categorical & Locations\ 
+where the property situated \\ 
+2 & beds & Numerical & Number of Bedrooms\\ 
+3 & baths  &  Numerical  & Number of bathrooms\\
+4 & Total\_sqft & Numerical & House Area\\
+5 & rent & Numerical & House Rent
+(Prediction outcome)\\[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:data_details} % is used to refer this table in the text
+\end{table}
+\\\
+\subsubsection{Data Prepossessing}
+The transformation of unprocessed data into processed data is the goal of the data preprocessing approach. The preprocessing of data is a necessary step that must be performed if accuracy is to be increased. During the experiment, the data were processed using a variety of different methods.\\\
+
+
+In the system that we have suggested, we made use of a variety of processing methods in order to transform our raw dataset into the better dataset by taking the following steps.\\\\
+\textit{Drop Two Columns: } \\\
+We were able to extract seven different categories of data, and they are as follows: id, location, beds, bathrooms, area, and sources. Then we remove two of our category columns, id and source in table \ref{table:drop}, from the table. After that, we trained our model using the remaining parts of the dataset.\\
+\begin{table}[ht]
+\caption{Drop Two Columns (id, source)} % title of Table
+\centering % used for centering table
+\begin{tabular}{l c c r} % centered columns (4 columns)
+\hline
+\textbf{} & \textbf{id} & \textbf{source}  \\[0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line of the table
+1 & 2062271 & https://property/details-...  \\ 
+2 & 1932693 & https://property/details-...\\ 
+3 & 5357478 &  https://property/details-...\\[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:drop} % is used to refer this table in the text
+\end{table}\\\
+\textit{toral\_sqft Column: } \\\
+In this case, we can see in the table \ref{table:changing_col} the raw total\_sqft data collection includes both a text dataset and a number dataset; however, only the numeric dataset we wanted to keep. After finding the space, our first step was to eliminate the text component of the dataset. Next, we removed the comma (,) that was in the center of the numerical value.\\\
+\textit{Rent Column: } \\\
+In this category, the raw in table \ref{table:changing_col} dataset contains text data; however, we decided to just maintain the numerical data so that we may more accurately anticipate the house rent using the results of numeric value. Because of this, the numerical value for "Thousand" has been changed to "1000," and the value for "Lakh" has been changed to "100000."\\\
+
+\begin{table}[ht]
+\caption{Location, Area, Rent Columns (Actual Dataset)} % title of Table
+\centering % used for centering table
+\begin{tabular}{l c c r} % centered columns (4 columns)
+\hline
+\textbf{location} & \textbf{total\_sqft} & \textbf{rent}  \\[0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line of the table
+Block F, Bashundhara R-A, Dhaka & 1,500 sqft & 30 Thousand  \\ 
+Block J, Bashundhara R-A, Dhaka & 1,000 sqft & 19.03 Thousand\\ 
+Sector 5, Uttara, Dhaka & 2,150 sqft &  50 Thousand\\[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:changing_col} % is used to refer this table in the text
+\end{table}
+
+\textit{Location Column: } 
+In this category, in the table \ref{table:changing_col} ,first we split the data by analyzing the commas, and then we took just the city name from here. For example, "Block F, Bashundhara R-A, Dhaka," we separated this data into three halves, since there are here two commas, and then we took only the place name like "Bashundhara R-A".
+\\\
+\textit{Adding New Column (Rent\_per\_sqft): } \\\
+In table \ref{table:clean} ,dataset after preprocessing, We were in the process of introducing a new column called rent per sqft, which would allow us to compute the rent per square feet for each particular location and made this column by the formula:\\\
+\begin{center}
+    Rent\_per\_sqft = rent / total\_sqft
+\end{center}
+
+\begin{table}[ht] 
+\caption{Dataset after Pre-processing} % title of Table 
+\centering      % used for centering table 
+\begin{tabular}{c c c c c c}  % centered columns (4 columns) 
+\hline\hline                        %inserts double horizontal lines 
+location & beds & baths & total\_sqft & rent &rent\_per\_sqft \\ [0.5ex] % inserts table 
+%heading 
+\hline                    % inserts single horizontal line 
+ Bashundhara R-A & 3 & 4  & 1500.0 & 30000.0 & 20.000000   \\    % inserting body of the table 
+Uttara & 3 & 3	 &	2150 & 50000.0 & 2150\\
+
+Mirpur & 2 & 2  & 650 & 12500.0\\
+Mohammadpur & 3 & 3  & 1400 & 15000.0\\
+Bashundhara R-A	& 3	& 2	 & 1000 & 19030.0 \\[1ex]       % [1ex] adds vertical space 
+\hline     %inserts single line 
+\end{tabular} 
+\label{table:clean}  % is used to refer this table in the text 
+\end{table} 
+
+
+\subsubsection{Data Visualization}
+
+The goal of data visualization is to make data simpler to comprehend and extract insights from by presenting it in a visual style such as a map or graph\cite{deepcolor}. Large datasets may be sifted through more quickly and easily with the use of data visualization. Information graphics, information visualization, and statistical graphics are all terms that can be used to describe the same thing\cite{imagenet}.\\\
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=\linewidth]{1.png}
+  \end{center}
+  \caption{Total square feet Vs Rent visualization based on our dataset (Bashundhara R-A region)}
+  \label{fig:viz1}
+ \end{figure}
+
+Figure \ref{fig:viz1} shows the data from Bashundhara Residential Area as a particular region. Residences containing 2 or 3 bedrooms are indicated by the color of their signs, which are blue and green. We used an independent variable from our dataset, total sqft, to estimate the price or rent of a property in this graph. This depiction makes it very plain to us that the rent or the price of the property will automatically increase if the number of square feet increases.\\\
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=\linewidth]{3.png}
+  \end{center}
+  \caption{Rent per square feet Vs Count }
+  \label{fig:rent}
+ \end{figure}
+ 
+% Figure \ref{fig:rent} presents a data visualization depicting the relationship between rent per square foot and total count. This indicates that the rent that is charged per square foot for the majority of the homes in Dhaka city is the same.\\\
+
+% section starts - edited by Fahmida
+
+Figure \ref{fig:rent} depicts data related to total counts of per square foot rent prices in the Bashundhara R-A region. Notably, around 5800 instances mark the highest count at approximately 20 taka. Conversely, counts around 60 and 70 taka, roughly 10 to 15 each, show a considerable disparity compared to the peak count. The graph unmistakably shows that nearly 5,800 houses or flats offer a 20 taka per square foot rent. Additionally, slightly above 20 taka, over 2,500 houses make up the second-highest count. A dense concentration is also evident close to 25 taka. Overall, the data illustrates a descending trend as rent per square foot increases. At 30 taka, the data comprises about 250 instances. Similarly, around 45, 50, and 65 taka, counts exhibit marginal variation, totaling around 50 to 200 houses or flats. Notably, the lowest counts, roughly 10 to 15, are seen at 60 and 70 taka. In essence, the data unveils a distinct pattern in rental prices across the Bashundhara R-A region, characterized by prominent peaks followed by diminishing counts as prices rise.\\\
+
+% section ends - edited by Fahmida
+
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=\linewidth]{4.png}
+  \end{center}
+  \caption{ The generic flow of development}
+  \label{fig:bathroom}
+ \end{figure}
+ 
+ Figure \ref{fig:bathroom} the word "bathroom" represents one of the features that may be found in our databases. It shows the restroom as opposed to the count. Because the majority of people in Dhaka city prefer houses with two or three bathrooms, the vast majority of homes in the city have either two or three bathrooms.
+ 
+\subsection{Machine Learning Approaches}
+
+\subsubsection{Linear Regression}
+Linear regression is the easiest way to figure out what will happen. It uses two things as variables: the predictor variable and the most important variable. Linear regression is the easiest way to figure out what will happen.
+It uses two things as variables: independent variable and the predictor variable. These regression estimates show how one dependent variable is related to one or more independent variables. The formula \cite{linear} describes the equation of a regression equation with one dependent variable and one independent variable.
+\begin{center}
+    \textbf{b = y + x*a}
+\end{center}
+where, b = estimated dependent variable score, y =constant, x = regression coefficient, and a = score on the independent variable.\\
+
+\textit{Data Normalization}\\
+A approach to scale data is to compress it within a preset interval. In normalization, we set the lowest value of a feature to 0 and the highest value to 1. So, the values of the features are put in the range [0, 1]:
+\begin{center}
+\begin{equation}
+     X_{normalize} = \frac{X-X_{min}}{X_{max}-X_{min}}
+\end{equation}
+\end{center}
+
+\subsubsection{Least absolute shrinkage and selection operator(Lasso)}
+In statistics and machine learning, lasso (also called least absolute shrinkage and selection operator or LASSO) is a regression analysis method that uses variable selection and regularization to make the statistical model better at making predictions and easier to understand. It was first used in geophysics\cite{lasso}, and Robert Tibshirani\cite{lasso1} was the first person to use the term.\\
+
+Lasso was first made for models of linear regression.We also used LASSO regression, which is a linear model with regularization. LASSO stands for least absolute shrinkage and selection operator. The LASSO algorithm is a method for reducing the complexity of models and preventing overfitting in prediction models.
+
+We chose the $ \beta_j$ parameters to make the residual sum of squares as small as possible:
+    
+
+
+\begin{equation}
+\sum_{i=1}^{n}(\beta_0 + \sum_{k=j}^{k}(\beta_{k} x_{k,i}-y_{i}))^{2}
+\end{equation}
+
+In LASSO regression, we determined $\lambda$ so that the sum of squares of the residuals was as minimal as possible:
+\begin{equation}
+\sum_{i=1}^{n}(\beta_0 + \sum_{k=j}^{k}(\beta_{k} x_{k,i}-y_{i}))^{2}+ \lambda \sum_{k=1}^{k} \beta_{k}.
+\end{equation}
+\subsubsection{Decision Tree Regressor}
+
+A decision tree is a tool that helps people make decisions. It uses a tree-like model of decisions and their possible results, such as the outcomes of random events, the costs of resources, and the value of the decision. It's one way to show an algorithm that only has if/then/else statements.Decision trees are often used in operations research, especially in decision analysis, to help find the most likely way to reach a goal. They are also a popular tool in machine learning.
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=\linewidth]{tree.png}
+  \end{center}
+  \caption{ Decision Tree Algorithm Architecture}
+  \label{fig:tree}
+ \end{figure}
+
+The decision tree regressor is responsible for analyzing the properties of an attribute and training a model in the shape of a tree so that it can accurately forecast data in the future and generate meaningful results. The decision tree regressor is able to learn from the maximum depth and minimum depth of a graph, and then analyzes the data in accordance with the system.In figure \ref{fig:tree}, we can clearly visualize the decision tree method architecture. 
+
+There are three kinds of nodes in a decision tree\cite{decision}:
+    Decision nodes – typically represented by squares\\
+    Chance nodes – typically represented by circles\\
+    End nodes – typically represented by triangles\\
+\\\\
+\textit{Mean Squared Error (MSE)}\\
+Evaluating the Mean Squared Error (MSE) between predicted outputs and target outputs is one of the metrics that may be utilized in the process of evaluating this sort of regression problem.
+
+\begin{equation}
+MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-h(x_{i}))^{2}
+\end{equation}
+
+  
+
+\subsubsection{Cross Validation}
+Cross-validation is a method of resampling that is used to test machine learning models with a small amount of data.The procedure has a single parameter called "k" that tells how many groups should be made from a given data sample. The process is often called "k-fold cross-validation" because of this. When a specific value for k is chosen, it can be used in place of k when referring to the model. For example, k=10 can be written as 10-fold cross-validation.
+
+Cross-validation is mostly used in applied machine learning to figure out how well a machine learning model works on data it has never seen before. It's a popular method because it's easy to understand and usually gives a more accurate estimate of the model's skill than other methods, like a simple train/test split.
+
+Here's how things usually work:\\
+
+Mix up the data set in a random way. Divide the set of data into k groups.\\
+For each unique group:
+Take the group as a test data set or a holdout.Use the rest of the groups as a set of training data.Fit a model to the training set, then check how well it works on the test set.Keep the score from the evaluation and throw away the model. Use the sample model evaluation scores to sum up how good the model is.
+
+\subsubsection{Grid Search CV}
+The parameters of our model may be fine-tuned with the help of Grid Search CV, which is a helpful tool. If you want to increase the performance of your model, it may be more effective to go back and study the features you have already picked, or to identify alternative links between features.
+
+Grid Search CV is a method for dealing with parameter tuning that will construct and evaluate a model in an effective manner for every possible combination of calculation parameters that is provided in a grid. In this particular approach, the Grid Search CV is utilized to determine the optimal value for the max-depth parameter, which is then utilized in the construction of the decision tree\cite{grid}.
+
+
+
+
+\subsection{Fitting the model: }
+After training the model with linear regression, lasso, and Decision tree regressor from the Scikit-learn library's machine learning methods, we picked decision tree regressor as the best algorithm by using "sklearn.model selection.GridSearchCV." This decision tree regressor method, which we used to test our dataset, provides an accuracy rate of 93\%.
+
+
+
+
+\section{Result Analysis}
+The decision tree regressor, which provides an accuracy of 93\% from our dataset, is clearly demonstrated to be the most accurate model by examining at table \ref{table:res}, as is readily seen. And the other two approaches, linear regression and lasso, both have the same level of accuracy, which is ninety percent. From figure \ref{fig:acc}, it is easy to observe which of the 3 techniques has the highest and lowest accuracy.
+ 
+ \begin{table}[ht]
+\caption{The Accuracy of three ML-Techniques} % title of Table
+\centering % used for centering table
+\begin{tabular}{l c c r} % centered columns (4 columns)
+\hline
+\textbf{} & \textbf{Methods} & \textbf{Accuracy}  \\[0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line of the table
+1& Linear Regression & 0.902564	 \\ 
+2 & Lasso  & 0.902542\\ 
+3 & Decision Tree & 0.933406  \\[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:res} % is used to refer this table in the text
+\end{table}
+ 
+ \begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=\linewidth]{chart.png}
+  \end{center}
+  \caption{ Three Methods Accuracy}
+  \label{fig:acc}
+ \end{figure}
+\section{Future Scope} 
+ 
+There is no study in Bangladesh that uses their own data to predict house rent. We are the first time using Bangladeshi housing dataset for predicting the house rent. In the future, we will show a study that compares the systems' predictions of the house's price based on the same user input. Also, to make things easier for the user, we will suggest real estate properties based on the predicted price. The current dataset only has cities from Dhaka. In the future, the goal is to add cities and states from other parts of Bangladesh. We will add Gmap to the system to make it even more useful and easy to use. This will show the nearby hospitals, schools, and other services within 1 km of the given location. This can also be used to make predictions, since the value of real estate goes up when these things are present.
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in . However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that the IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+%\vskip 90mm
+\section{Conclusion}
+We only made this system for Dhaka, Bangladesh, because there has never been a study done on predicting house rent in Bangladesh. This was done so that we could get a good estimation of Dhaka's house renting. So, we collected 27.774 sample datasets from different online websites about housing in Dhaka. In this paper, we trained three different machine learning methods, including linear regression, lasso, and decision tree. Out of these algorithms, we chose the best predictive model, which is a decision tree regressor, to make accurate predictions about house rent. The system is 93\% accurate when using the decision tree regressor machine learning method, and the other two algorithms, linear regression and lasso, both are 90\% accurate when predicting the rent for a house or apartment.
+
+
+Location, beds, bathrooms, total sqft, and rent are all factors that individuals consider when deciding whether or not to rent a home or apartment in Dhaka, Bangladesh. Many individuals migrate to Dhaka, Bangladesh's capital city, each year for a variety of reasons. When individuals initially consider moving to Dhaka, they have no idea where to look for a rental home that meets all of their needs. Using this technique, consumers may quickly and easily choose the home of their dreams depending on their preferences for location, budget, number of bedrooms, number of bathrooms, and the overall square footage.
+
+% conference papers do not normally have an appendix
+
+
+
+
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+\begin{thebibliography}{1}
+\bibitem{grid}
+Alisha Kuvalekar, Shivani Manchewar, Sidhika Mahadik, Shila Jawale, \emph{House Price Forecasting Using Machine Learning},  3rd International Conference on Advances in Science & Technology (ICAST),April, 2020.
+
+\bibitem{r0}
+Maida Ahtesham, Narmeen Zakaria Bawany, Kiran Fatima, \emph{House Price Prediction using Machine Learning Algorithm - The Case of Karachi City, Pakistan}, 21st International Arab Conference on Information Technology (ACIT), November,2020.
+
+
+\bibitem{r1}
+Yun Zhao, Girija Chetty, Dat Tran, \emph{Deep Learning with XGBoost for Real Estate Appraisal},IEEE Symposium Series on Computational Intelligence (SSCI),Xiamen, China, 2019.
+
+\bibitem{r2}
+G. N. Satish, C. V Raghavendran, M. D. S. Rao, and C. Srinivasulu, \emph{House Price Prediction Using Machine Learning}, International Journal of Innovative
+Technology and Exploring Engineering,vol. 8, no. 9, pp. 717–722, 2019.
+
+\bibitem{r3}
+B.N. Lakshmi; G.H. Raghunandhan, \emph{A conceptual overview of data mining}, 2011 National Conference on Innovations in Emerging Technology.
+
+\bibitem{r4}
+ R Manjula, Shubham Jain, Sharad Srivastava and Pranav Rajiv Kher, \emph{Real estate value prediction using multivariate regression models},Materials Science and Engineering Conference Series ​ . Vol. 263. No. 4. 2017.
+
+\bibitem{r5}
+Ayush Varma, Abhijit Sarma, Sagar Doshi, Rohini Nair, \emph{House Price Prediction Using Machine Learning And Neural Networks} 2018 Second International Conference on Inventive Communication and Computational Technologies, pp. 1936–1939, 1936.
+
+\bibitem{r6}
+Nihar Bhagat, Ankit Mohokar, Shreyash Mane, \emph{House Price Forecasting using Data Mining}, International Journal of Computer Applications,2016.
+
+\bibitem{r7}
+The Danh Phan, \emph{Housing price prediction using machine learning algorithms: The case of Melbourne city, Australia}, Proceedings -International Conference on Machine learning and Data Engineering, iCMLDE 2018, pp. 8–13, 2019.
+
+\bibitem{r8}
+Sean M. Arietta, Alexei A. Efros, Ravi Ramamoorthi, Maneesh Agrawala, \emph{City forensics: Using visual elements to predict non-visual city attributes}, IEEE
+transactions on visualization and computer graphics 20.12 (2014): 2624-2633
+
+\bibitem{r9}
+Hujia Yu, Jiafu Wu , \emph{Real estate price prediction with
+regression and classification}, CS 229 Autumn 2016 Project Final Report 1–5.
+
+\bibitem{deepcolor}
+
+Cole Nussbaumer Knaflic, John Wiley & Sons, \emph {Storytelling with Data: A Data Visualization Guide for Business Professionals} ISBN 978-1-119-00225-3,2022
+
+
+
+\bibitem{imagenet}
+Tamara Munzner,   \emph{Process and Pitfalls in Writing Information Visualization Research Papers}, www.cs.ubc.ca. Retrieved 9 April 2018.
+
+\bibitem{linear}
+C. M. Bishop, \emph{Pattern Recognition and Machine Learning}, Springer, 2006
+
+\bibitem{lasso}
+Fadil Santosa, William W., Symes \emph{Linear inversion of band-limited reflection seismograms}, SIAM Journal on Scientific and Statistical Computing. SIAM. 7 (4): 1307–1330. doi:10.1137/0907087.  
+
+
+\bibitem{lasso1}
+Tibshirani, Robert  \emph{Regression Shrinkage and Selection via the lasso}. Journal of the Royal Statistical Society. Series B (methodological). Wiley. 58 (1): 267–88. JSTOR 2346178
+
+\bibitem{decision}
+Bogumił Kamiński, Michał Jakubczyk, Przemysław Szufel, \emph{A framework for sensitivity analysis of decision trees}, Central European Journal of Operations Research. 26 (1): 135–159. doi:10.1007/s10100-017-0479-6. PMC 5767274. PMID 29375266.
+
+\end{thebibliography}
+
+
+
+
+
+
+% that's all folks
+\end{document}
+
+
